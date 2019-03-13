@@ -1,9 +1,19 @@
 var mysql = require('mysql2');
+var fs = require('fs');
+var path = require('path');
+
+var BUFFER = bufferFile('mysql_user.json');
+
+function bufferFile(relPath) {
+    return fs.readFileSync(path.join(__dirname, relPath));
+}
+
+var parsed = JSON.parse(BUFFER.toString());
 
 var con = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "123"
+  user: parsed.user,
+  password: parsed.password
 });
 
 con.query("CREATE DATABASE IF NOT EXISTS stock",
@@ -15,8 +25,8 @@ con.query("CREATE DATABASE IF NOT EXISTS stock",
 
 var con = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "123",
+  user: parsed.user,
+  password: parsed.password,
   database: "stock"
 });
 
