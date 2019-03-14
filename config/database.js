@@ -2,37 +2,53 @@ var mysql = require('mysql2');
 var fs = require('fs');
 var path = require('path');
 
-var BUFFER = bufferFile('mysql_user.json');
-
 function bufferFile(relPath) {
     return fs.readFileSync(path.join(__dirname, relPath));
 }
 
-var parsed = JSON.parse(BUFFER.toString());
+var data = JSON.parse(bufferFile('mysql_user.json'));
 
-var con = mysql.createConnection({
-  host: "localhost",
-  user: parsed.user,
-  password: parsed.password
-});
+function connect(data) {
+  return mysql.createConnection({
+    host: data.host,
+    user: data.user,
+    password: data.password
+  });
+}
 
-con.query("CREATE DATABASE IF NOT EXISTS stock",
+function createDB(connection, callback) {
+  connection.query("CREATE DATABASE IF NOT EXISTS stock",
   function (err) {
     if (err) throw err;
     console.log("Database created");
+    callback();
   }  
 );
+}
 
-var con = mysql.createConnection({
-  host: "localhost",
-  user: parsed.user,
-  password: parsed.password,
-  database: "stock"
-});
+function connectToStock(data) {
+  return mysql.createConnection({
+    host: data.host,
+    user: data.user,
+    password: data.password,
+    database: "stock"
+  });
+}
 
-con.query("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), login VARCHAR(255), password VARCHAR(255))",
+function createTable(connection, callback) {
+  connection.query("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), login VARCHAR(255), password VARCHAR(255))",
   function (err, result) {
     if (err) throw err;
     console.log("Users Table created");
+    callback();
   }
-);
+  );
+}
+
+function run() {
+  createDB(connect(data), function() {
+    createTable(connectToStock(data), function(){});
+  });
+}
+
+run();
