@@ -26,6 +26,7 @@ CREATE TABLE `actions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) NOT NULL,
   `action` text,
+  `created_at` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
   CONSTRAINT `actions_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
@@ -160,4 +161,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-22 14:09:18
+-- Dump completed on 2019-03-22 15:37:53
