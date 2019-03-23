@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Systock</title>
+</head>
+<body>
+
+    <% if (locals.error) { %>
+        <div>
+          <p><%= error %></p>
+        </div>
+    <% } %>
+    <% if (locals.success) { %>
+      <div>
+        <p><%= success %></p>
+      </div>
+    <% } %>
+
+    <h2>Login<h2>
+    <form action="/login" method="POST">
+        <div>
+          <label for="login">Login:</label>
+          <input type="text" placeholder="Login" name="login">
+        </div>
+        <div>
+          <label for="password">Password:</label>
+          <input type="password" placeholder="Senha" name="password"><br>
+        </div>
+        <div class="button">
+          <button type="submit">Submit</button>
+        </div>
+    </form>
+    <p>Não é registrado? <a href="/register">Registrar usuário</a>.</p>
+
+</body>
+</html>
