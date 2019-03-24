@@ -2,6 +2,7 @@
 <html lang="en">
 <%- include ../partials/head %>
 <body>
+    <%- include('../partials/header', {page:'login'}) %>
 <div class="container">
     <% if (locals.error) { %>
         <div class="alert alert-danger">
@@ -18,7 +19,7 @@
     <form action="/login" method="POST">
         <div class="form-group">
           <label for="login">Login:</label>
-          <input class="form-control" type="text" placeholder="Login" name="login">
+          <input class="form-control" type="text" placeholder="Login" name="login" autofocus>
         </div>
         <div>
           <label for="password">Password:</label>
@@ -28,5 +29,6 @@
     </form>
     <p>Não é registrado? <a href="/register">Registrar usuário</a>.</p>
 </div>
+<%- include ../partials/footer.ejs %>
 </body>
 </html>

@@ -11,9 +11,11 @@
                 <a class="nav-link" href="/">Home</a>
             </li>
             
+            <% if(locals.page && page != 'login' && page != 'register') { %>
             <li class="nav-item mt-2 mt-md-0">
                 <a class="nav-link" href="/logout">Logout</a>
             </li>
+            <% } %>
         </ul>
     </div>
 </nav>
