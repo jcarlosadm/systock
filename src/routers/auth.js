@@ -4,13 +4,14 @@ let router = express.Router();
 let userController = require('./../../server/controller/user');
 
 router.route('/login')
-.get(function(req, res) {
+.get(redirectToHome, function(req, res) {
     res.render('./auth/login.ejs', { success: req.flash('success') });
     req.flash('success', null);
 })
-.post(function(req, res){
-    userController.login(req.body.login, req.body.password, function() {
-        if (userController.getLoggedUser() != null) {
+.post(redirectToHome,function(req, res){
+    userController.login(req.body.login, req.body.password, function(user) {
+        req.session.user = user;
+        if (user != null) {
             res.redirect('/');
         } else {
             res.render('./auth/login.ejs', {
@@ -23,16 +24,15 @@ router.route('/login')
 });
 
 router.get('/logout', function(req, res){
-    userController.logout(function() {
-        res.redirect('/');
-    });
+    req.session.user = null;
+    res.redirect('/');
 });
 
 router.route('/register')
-.get(function(req, res) {
+.get(redirectToHome,function(req, res) {
     res.render('./auth/register.ejs');
 })
-.post(function(req, res) {
+.post(redirectToHome,function(req, res) {
     userController.register(req.body.name, req.body.login, req.body.password, function(errorMsg) {
         if (errorMsg == null) {
             req.flash('success', 'sucesso ao registrar');
@@ -43,8 +43,16 @@ router.route('/register')
     });
 });
 
+function redirectToHome(req, res, next) {
+    if (req.session.user != null && req.session.user != undefined) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+}
+
 function checkLogin(req, res, next) {
-    if (userController.getLoggedUser() == null) {
+    if (req.session.user == null || req.session.user == undefined) {
         res.redirect('/login');
     } else {
         next();

@@ -14,7 +14,6 @@ app.use(flash());
 
 app.use(express.static('static'));
 
-let userController = require('./server/controller/user');
 let auth = require('./src/routers/auth');
 
 app.set('view engine', 'ejs');
@@ -23,7 +22,7 @@ app.use('/', auth.router);
 
 app.get('/', auth.checkLogin, function(req,res){
     res.render('./index.ejs', {
-        loggedUser: userController.getLoggedUser(),
+        loggedUser: req.session.user,
         success: req.flash('success')
     });
     req.flash('success', null);

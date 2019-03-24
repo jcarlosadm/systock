@@ -1,18 +1,15 @@
 let database = require("./../../src/database");
 
-let loggedUser = null;
-
 function login(login, password, callback) {
     let connection = database.connectToStock();
     connection.execute(`select name,password from users where login = '${login}'`, 
     function(error, results, fields){
         if (error) throw error;
         if (checkResults(results) && results[0]['password'] === password) {
-            loggedUser = {name:results[0]['name'], login:login};
+            callback({name:results[0]['name'], login:login});
         } else {
-            loggedUser = null;
+            callback(null);
         }
-        callback();
     });
 }
 
@@ -41,13 +38,4 @@ function checkResults(results) {
         results[0] != undefined);
 }
 
-function logout(callback) {
-    loggedUser = null;
-    callback();
-}
-
-function getLoggedUser() {
-    return loggedUser;
-}
-
-module.exports = { login, register, logout, getLoggedUser };
+module.exports = { login, register };
