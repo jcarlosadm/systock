@@ -15,22 +15,18 @@ app.use(flash());
 app.use(express.static('static'));
 
 let userController = require('./server/controller/user');
-let authRouter = require('./src/routers/auth');
+let auth = require('./src/routers/auth');
 
 app.set('view engine', 'ejs');
 
-app.use('/', authRouter);
+app.use('/', auth.router);
 
-app.get('/',function(req,res){
-    if (userController.getLoggedUser() == null) {
-        res.redirect('/login');
-    } else {
-        res.render('./index.ejs', {
-            loggedUser: userController.getLoggedUser(),
-            success: req.flash('success')
-        });
-        req.flash('success', null);
-    }
+app.get('/', auth.checkLogin, function(req,res){
+    res.render('./index.ejs', {
+        loggedUser: userController.getLoggedUser(),
+        success: req.flash('success')
+    });
+    req.flash('success', null);
 });
 
 module.exports = app;

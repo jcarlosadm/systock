@@ -43,4 +43,12 @@ router.route('/register')
     });
 });
 
-module.exports = router;
+function checkLogin(req, res, next) {
+    if (userController.getLoggedUser() == null) {
+        res.redirect('/login');
+    } else {
+        next();
+    }
+}
+
+module.exports = { router, checkLogin };
