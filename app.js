@@ -12,6 +12,8 @@ app.use(session({
     }));
 app.use(flash());
 
+app.use(express.static('static'));
+
 let userController = require('./server/controller/user');
 let authRouter = require('./src/routers/auth');
 

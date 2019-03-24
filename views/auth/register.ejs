@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Systock</title>
-</head>
+<%- include ../partials/head %>
 <body>
     <% if (locals.error) { %>
-      <div>
+      <div class="alert alert-danger">
         <p><%= error %></p>
       </div>
     <% } %>
 
-    <h2>Registro<h2>
+    <h1>Registro</h1>
     <form action="/register" method="POST">
-        <div>
+        <div class="form-group">
           <label for="name">Nome:</label>
-          <input type="text" placeholder="Nome" name="name">
+          <input class="form-control" type="text" placeholder="Nome" name="name">
         </div>
-        <div>
+        <div class="form-group">
           <label for="login">Login:</label>
-          <input type="text" placeholder="Login" name="login">
+          <input class="form-control" type="text" placeholder="Login" name="login">
         </div>
-        <div>
+        <div class="form-group">
           <label for="password">Password:</label>
-          <input type="password" placeholder="Senha" name="password"><br>
+          <input class="form-control" type="password" placeholder="Senha" name="password"><br>
         </div>
-        <div class="button">
-          <button type="submit">Submit</button>
-        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
     </form> 
     <p>Já é registrado? <a href="/login">Login</a></p>
 

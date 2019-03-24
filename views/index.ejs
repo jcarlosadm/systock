@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Systock</title>
-</head>
+<%- include ./partials/head %>
 <body>
+    <%- include('./partials/header', {page:'home'}) %>
 
     <% if (locals.success) { %>
-      <div>
+      <div class="alert alert-primary">
         <p><%= success %></p>
       </div>
     <% } %>
 
-    <div>
-      Olá <%= loggedUser.name %>
-    </div> 
-    <a href="/logout">Logout</a>
+    <div class="container">
+      <div class="jumbotron">
+        <p>Olá <%= loggedUser.name %></p>
+      </div>
+    </div>
 
+    <%- include ./partials/footer.ejs %>
 </body>
 </html>
