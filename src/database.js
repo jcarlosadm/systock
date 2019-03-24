@@ -17,4 +17,9 @@ function connectToStock() {
   });
 }
 
-module.exports = { connectToStock };
+function checkResults(results) {
+  return (results != null && results != undefined && results[0] != null &&
+      results[0] != undefined);
+}
+
+module.exports = { connectToStock, checkResults };

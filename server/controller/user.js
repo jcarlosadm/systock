@@ -1,11 +1,11 @@
-let database = require("./../../src/database");
+let db = require("./../../src/database");
 
 function login(login, password, callback) {
-    let connection = database.connectToStock();
+    let connection = db.connectToStock();
     connection.execute(`select name,password from users where login = '${login}'`, 
     function(error, results, fields){
         if (error) throw error;
-        if (checkResults(results) && results[0]['password'] === password) {
+        if (db.checkResults(results) && results[0]['password'] === password) {
             callback({name:results[0]['name'], login:login});
         } else {
             callback(null);
@@ -14,14 +14,14 @@ function login(login, password, callback) {
 }
 
 function register(name, login, password, callback) {
-    let connection = database.connectToStock();
+    let connection = db.connectToStock();
     connection.execute(`select exists(select 1 from users where login = '${login}') as count`,
     function(error, results, fields){
         if (error) throw error;
 
-        if (checkResults(results) && results[0]['count'] == 1) {
+        if (db.checkResults(results) && results[0]['count'] == 1) {
             callback("Usuário já existe");
-        } else if (checkResults(results) && results[0]['count'] == 0) {
+        } else if (db.checkResults(results) && results[0]['count'] == 0) {
             connection.execute(`insert into users(name, login , password) 
             values ('${name}','${login}','${password}')`, function(error, results, fields){
                 if (error) throw error;
@@ -31,11 +31,6 @@ function register(name, login, password, callback) {
             throw new Error("error in mysql query");
         }
     });
-}
-
-function checkResults(results) {
-    return (results != null && results != undefined && results[0] != null &&
-        results[0] != undefined);
 }
 
 module.exports = { login, register };
