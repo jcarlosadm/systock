@@ -2,7 +2,7 @@
 <html lang="en">
 <%- include ../partials/head %>
 <body>
-
+<div class="container">
     <% if (locals.error) { %>
         <div class="alert alert-danger">
           <p><%= error %></p>
@@ -27,6 +27,6 @@
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>
     <p>Não é registrado? <a href="/register">Registrar usuário</a>.</p>
-
+</div>
 </body>
 </html>
