@@ -112,6 +112,7 @@ CREATE TABLE `stocks` (
   `name` varchar(255) NOT NULL,
   `description` text,
   `created_at` date DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `stocks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
@@ -140,7 +141,7 @@ CREATE TABLE `users` (
   `login` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,6 +150,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'jose carlos','josecarlos','123456'),(2,'daniel','daniel','1234'),(3,'tatiana viana','tatiana','1234'),(4,'cicera','cicera','1234'),(5,'cicera viana','cicera2','1234');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -161,4 +163,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-22 15:37:53
+-- Dump completed on 2019-03-24  1:14:45
