@@ -3,7 +3,7 @@ let db = require('./database');
 
 function htmlCodeInfo(productId, callback) {
     let conn = db.connectToStock();
-    conn.execute(`select code from products where id = '${productId}'`,
+    conn.execute(buildQuery("code", "products", "id", productId),
     function(error, results, fields){
         if (error) throw error;
         if (db.checkResults(results) && checkField(results, "code")) {
@@ -15,35 +15,86 @@ function htmlCodeInfo(productId, callback) {
 }
 
 function htmlNameInfo(productId, callback) {
-    /** implement */
+    let conn = db.connectToStock();
+    conn.execute(buildQuery("name", "products", "id", productId),
+    function(error, results, fields){
+        if (error) throw error;
+        if (db.checkResults(results) && checkField(results, "name")) {
+            callback(`<p>${results[0]['name']}</p>`);
+        } else {
+            callback(null);
+        }
+    });
 }
 
 function htmlDescriptionInfo(productId, callback) {
-    /** implement */
+    let conn = db.connectToStock();
+    conn.execute(buildQuery("description", "products", "id", productId),
+    function(error, results, fields){
+        if (error) throw error;
+        if (db.checkResults(results) && checkField(results, "description")) {
+            callback(`<p>${results[0]['description']}</p>`);
+        } else {
+            callback(null);
+        }
+    });
 }
 
 function htmlQuantityField(productId, callback) {
-    /** implement */
+    let conn = db.connectToStock();
+    conn.execute(buildQuery("quantity", "quantities", "product_id", productId), 
+    function(error, results, fields){
+        if (error) throw error;
+        if (results != null && result != undefined) {
+            let total = 0;
+            for(let i = 0; i < results.length; ++i){
+                total += results[i]["quantity"];
+            }
+            callback(`<p>${total}</p>`);
+        } else {
+            callback(null);
+        }
+    });
 }
 
 function htmlIncrementButton(productId, callback) {
-    /** implement */
+    // TODO: implement
 }
 
 function htmlDecrementButton(productId, callback) {
-    /** implement */
+    // TODO: implement
 }
 
 function htmlActionButton(productId, callback) {
-    /** implement */
+    // TODO: implement
 }
 
 function htmlActionInfo(productId, callback) {
-    /** implement */
+    let conn = db.connectToStock();
+    conn.execute(buildQuery("action", "actions", "product_id", productId),
+    function(error, results, fields){
+        if (error) throw error;
+        if (results != null && results != undefined) {
+            let actions = "";
+            for (let i = 0; i < results.length; ++i) {
+                actions += `<p>${results[0]["action"]}</p>`;
+                if ((i+1) < results.length) {
+                    actions += "<br>";
+                }
+            }
+            callback(actions);
+        } else {
+            callback(null);
+        }
+    });
 }
 
 function htmlPriceInfo(productId, callback) {
-    /** implement */
+    // TODO: implement
+}
+
+function buildQuery(field, table, field_compare, productId) {
+    return `select ${field} from ${table} where ${field_compare} = '${productId}'`;
 }
 
 function checkField(results, field) {

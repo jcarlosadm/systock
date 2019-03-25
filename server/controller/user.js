@@ -2,11 +2,11 @@ let db = require("./../../src/database");
 
 function login(login, password, callback) {
     let connection = db.connectToStock();
-    connection.execute(`select name,password from users where login = '${login}'`, 
+    connection.execute(`select id,name,password from users where login = '${login}'`, 
     function(error, results, fields){
         if (error) throw error;
         if (db.checkResults(results) && results[0]['password'] === password) {
-            callback({name:results[0]['name'], login:login});
+            callback({id:results[0]['id'],name:results[0]['name'], login:login});
         } else {
             callback(null);
         }
